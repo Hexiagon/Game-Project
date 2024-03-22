@@ -52,19 +52,19 @@ xImage.src = "images/Letter-XPlayer.png";
 
 
 // Y image
-var xReady = false;
-var xImage = new Image();
+var yReady = false;
+var yImage = new Image();
 xImage.onload = function(){
-    xReady = true;
+    yReady = true;
 };
-xImage.src = "images/letter-o.png";
+yImage.src = "images/letter-o.png";
 
 //player x
 var XPlayer = {
-    Shape: "X"
+    Shape: xImage
 }
 var OPlayer = {
-    Shape: "O"
+    Shape: yImage
 }
 var TopLeft={
     Shape: "",
