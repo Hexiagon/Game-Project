@@ -1,36 +1,65 @@
+//Create Canvas
 var canvas=document.createElement("canvas");
 var ctx= canvas.getContext("2d");
 canvas.width=1005;
 canvas.height=1005;
 document.body.appendChild(canvas);
-var rows=8;
+
+//add variables
+//
+var rows=3;
 var cols=3;
-var trackRight=2;
-var trackLeft=5;
-var trackUp=0;
-var trackDown=7;
-var spriteWidth=192;
-var spriteHeight=512;
-var width= spriteWidth;
-var height= spriteHeight;
+
+var trackRight=0;
+var trackLeft=1;
+var trackUp=2;
+var trackDown=0;
+
+var spriteWidth=624;
+var spriteHeight=624;
+var width= spriteWidth /cols;
+var height= spriteHeight /rows;
 var curXFrame=0;
 var frameCount=3;
 var srcX=0;
 var srcY=0;
+
 var left=false;
 var right=false;
 var up=false;
 var down=false;
+
 var counter=0;
 var soundEfx=document.getElementById("soundEfx");
 var soundGameOver="sounds/mixkit-arcade-video-game-bonus-2044.wav";
 var soundSelectedSquare="sounds/mixkit-bonus-earned-in-video-game-2058.wav";
+
+//images
 var bgReady=false;
 var bgImage=new Image();
 bgImage.onload = function () {
     bgReady=true;
 };
 bgImage.src="images/background.jpg";
+
+// X image
+var xReady = false;
+var xImage = new Image();
+xImage.onload = function(){
+    xReady = true;
+};
+xImage.src = "images/Letter-XPlayer.png";
+
+
+// Y image
+var xReady = false;
+var xImage = new Image();
+xImage.onload = function(){
+    xReady = true;
+};
+xImage.src = "images/letter-o.png";
+
+//player x
 var XPlayer = {
     Shape: "X"
 }
@@ -105,6 +134,8 @@ var gameover=function(){
     soundEfx.play();
     reset();
 }
+
+// update game object function
 var update = function(modifier){
     countdown-=1/60;
     if(countdown<0){
@@ -188,6 +219,8 @@ var render=function(){
         ctx.fillText("O Player's turn (To place an O, press O). Timer: "+countdown,0,0);
     }
 }
+
+//The main game loop
 var main=function(){
     var now=Date.now();
     var delta=now-then;
