@@ -172,7 +172,6 @@ var update = function(modifier){
             }
         }
     }
-    
     if(counter==5){
         curXFrame=++curXFrame%frameCount;
         counter=0;
@@ -197,7 +196,62 @@ var update = function(modifier){
         srcX=1*width;
         srcY=0*height;
     }
-    
+    if((TopLeft.Shape==XPlayer.Shape&&
+        CenterLeft.Shape==XPlayer.Shape&&
+        BottomLeft.Shape==XPlayer.Shape)||
+        (TopMiddle.Shape==XPlayer.Shape&&
+        CenterMiddle.Shape==XPlayer.Shape&&
+        BottomMiddle.Shape==XPlayer.Shape)||
+        (TopRight.Shape==XPlayer.Shape&&
+        CenterRight.Shape==XPlayer.Shape&&
+        BottomRight.Shape==XPlayer.Shape)||
+        (TopLeft.Shape==XPlayer.Shape&&
+        TopMiddle.Shape==XPlayer.Shape&&
+        TopRight.Shape==XPlayer.Shape)||
+        (CenterLeft.Shape==XPlayer.Shape&&
+        CenterMiddle.Shape==XPlayer.Shape&&
+        CenterRight.Shape==XPlayer.Shape)||
+        (BottomLeft.Shape==XPlayer.Shape&&
+        BottomMiddle.Shape==XPlayer.Shape&&
+        BottomRight.Shape==XPlayer.Shape)||
+        (TopLeft.Shape==XPlayer.Shape&&
+        CenterMiddle.Shape==XPlayer.Shape&&
+        BottomRight.Shape==XPlayer.Shape)||
+        (TopRight.Shape==XPlayer.Shape&&
+        CenterMiddle.Shape==XPlayer.Shape&&
+        BottomLeft.Shape==XPlayer.Shape)
+        ){
+            Message="X Player Wins!";
+            gameover();
+    }
+    else if((TopLeft.Shape==OPlayer.Shape&&
+        CenterLeft.Shape==OPlayer.Shape&&
+        BottomLeft.Shape==OPlayer.Shape)||
+        (TopMiddle.Shape==OPlayer.Shape&&
+        CenterMiddle.Shape==OPlayer.Shape&&
+        BottomMiddle.Shape==OPlayer.Shape)||
+        (TopRight.Shape==OPlayer.Shape&&
+        CenterRight.Shape==OPlayer.Shape&&
+        BottomRight.Shape==OPlayer.Shape)||
+        (TopLeft.Shape==OPlayer.Shape&&
+        TopMiddle.Shape==OPlayer.Shape&&
+        TopRight.Shape==OPlayer.Shape)||
+        (CenterLeft.Shape==OPlayer.Shape&&
+        CenterMiddle.Shape==OPlayer.Shape&&
+        CenterRight.Shape==OPlayer.Shape)||
+        (BottomLeft.Shape==OPlayer.Shape&&
+        BottomMiddle.Shape==OPlayer.Shape&&
+        BottomRight.Shape==OPlayer.Shape)||
+        (TopLeft.Shape==OPlayer.Shape&&
+        CenterMiddle.Shape==OPlayer.Shape&&
+        BottomRight.Shape==OPlayer.Shape)||
+        (TopRight.Shape==OPlayer.Shape&&
+        CenterMiddle.Shape==OPlayer.Shape&&
+        BottomLeft.Shape==OPlayer.Shape)
+        ){
+            Message="O Player Wins!";
+            gameover();
+    }
 }
 var render=function(){
     if(bgReady){
@@ -230,7 +284,7 @@ var render=function(){
             }
         }
     }
-    if(xReady){
+    if(yReady){
         for(var i=0;i<AllSides.length;i++){
             if(AllSides[i].Shape==OPlayer.Shape){
                 if(selectedBlock==1){
@@ -286,8 +340,14 @@ var reset=function(){
     item.y=32+(Math.random()*(canvas.height-96));
     */
     delete ctx;
+    selectedBlock=0;
     countdown=360;
     turnNumber=0;
+    left=false;
+    right=false;
+    top=false;
+    bottom=false;
+    counter=0;
     for(let i=0;i<AllSides.length;i++){
         AllSides[i].Shape="";
     }
