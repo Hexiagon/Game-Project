@@ -48,13 +48,13 @@ var xImage = new Image();
 xImage.onload = function(){
     xReady = true;
 };
-xImage.src = "images/Letter-XPlayer.png";
+xImage.src = "images/Letter-X.png";
 
 
 // Y image
 var yReady = false;
 var yImage = new Image();
-xImage.onload = function(){
+yImage.onload = function(){
     yReady = true;
 };
 yImage.src = "images/letter-o.png";
@@ -134,7 +134,7 @@ var gameover=function(){
     soundEfx.play();
     reset();
 }
-
+var selectedBlock=0;
 // update game object function
 var update = function(modifier){
     countdown-=1/60;
@@ -172,7 +172,7 @@ var update = function(modifier){
             }
         }
     }
-    /*
+    
     if(counter==5){
         curXFrame=++curXFrame%frameCount;
         counter=0;
@@ -197,17 +197,66 @@ var update = function(modifier){
         srcX=1*width;
         srcY=0*height;
     }
-    */
+    
 }
 var render=function(){
     if(bgReady){
         ctx.drawImage(bgImage,0,0);
     }
-    /*
-    if(PlayerModelReady){
-        ctx.drawImage(PlayerModelImage,srcX,srcY,width,height,playermodel.x,playermodel.y,width,height);
+    if(xReady){
+        for(var i=0;i<AllSides.length;i++){
+            if(AllSides[i].Shape==XPlayer.Shape){
+                if(selectedBlock==1){
+                    left=true;
+                }
+                else if(selectedBlock==2){
+                    right=true;
+                }
+                else if(selectedBlock==3){
+                    up=true;
+                }
+                else if(selectedBlock==4){
+                    down=true;
+                }
+                ctx.drawImage(xImage,srcX,srcY,width,height,AllSides[i].x,AllSides[i].y,width,height);
+                selectedBlock++;
+                if(selectedBlock>=6){
+                    left=false;
+                    right=false;
+                    up=false;
+                    left=false;
+                    selectedBlock=0;
+                }
+            }
+        }
     }
-    */
+    if(xReady){
+        for(var i=0;i<AllSides.length;i++){
+            if(AllSides[i].Shape==OPlayer.Shape){
+                if(selectedBlock==1){
+                    left=true;
+                }
+                else if(selectedBlock==2){
+                    right=true;
+                }
+                else if(selectedBlock==3){
+                    up=true;
+                }
+                else if(selectedBlock==4){
+                    down=true;
+                }
+                ctx.drawImage(yImage,srcX,srcY,width,height,AllSides[i].x,AllSides[i].y,width,height);
+                selectedBlock++;
+                if(selectedBlock>=6){
+                    left=false;
+                    right=false;
+                    up=false;
+                    left=false;
+                    selectedBlock=0;
+                }
+            }
+        }
+    }
     ctx.fillStyle="rgb(0,0,0)";
     ctx.font="24px Helvetica";
     ctx.textAlign="left";
