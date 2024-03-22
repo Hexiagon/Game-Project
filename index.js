@@ -135,123 +135,139 @@ var gameover=function(){
     reset();
 }
 var selectedBlock=0;
+var XPlayerWins=false;
+var OPlayerWins=false;
+let delayInBetweenWins;
 // update game object function
 var update = function(modifier){
-    countdown-=1/60;
-    if(countdown<0){
-        Message="All players lose.";
-        gameover();
-    }
-    if(88 in keysDown&&turnNumber==0){
-        for(let i=0;i<AllSides.length;i++){
-            if(AllSides[i].Shape==""&&
-            mousePositionX<=(AllSides[i].x+335)
-            && mousePositionX>=(AllSides[i].x)
-            && mousePositionY<=(AllSides[i].y+335)
-            && mousePositionY>=(AllSides[i].y)){
-                AllSides[i].Shape=XPlayer.Shape;
-                turnNumber=1;
-                soundEfx.src=soundSelectedSquare;
-                soundEfx.play();
-                break;
+    if(XPlayerWins==false&&OPlayerWins==false){
+        countdown-=1/60;
+        if(countdown<0){
+            Message="All players lose.";
+            gameover();
+        }
+        if(88 in keysDown&&turnNumber==0){
+            for(let i=0;i<AllSides.length;i++){
+                if(AllSides[i].Shape==""&&
+                mousePositionX<=(AllSides[i].x+335)
+                && mousePositionX>=(AllSides[i].x)
+                && mousePositionY<=(AllSides[i].y+335)
+                && mousePositionY>=(AllSides[i].y)){
+                    AllSides[i].Shape=XPlayer.Shape;
+                    turnNumber=1;
+                    soundEfx.src=soundSelectedSquare;
+                    soundEfx.play();
+                    break;
+                }
             }
         }
-    }
-    if(79 in keysDown&&turnNumber==1){
-        for(let i=0;i<AllSides.length;i++){
-            if(AllSides[i].Shape==""&&
-            mousePositionX<=(AllSides[i].x+335)
-            && mousePositionX>=(AllSides[i].x)
-            && mousePositionY<=(AllSides[i].y+335)
-            && mousePositionY>=(AllSides[i].y)){
-                AllSides[i].Shape=OPlayer.Shape;
-                turnNumber=0;
-                soundEfx.src=soundSelectedSquare;
-                soundEfx.play();
-                break;
+        if(79 in keysDown&&turnNumber==1){
+            for(let i=0;i<AllSides.length;i++){
+                if(AllSides[i].Shape==""&&
+                mousePositionX<=(AllSides[i].x+335)
+                && mousePositionX>=(AllSides[i].x)
+                && mousePositionY<=(AllSides[i].y+335)
+                && mousePositionY>=(AllSides[i].y)){
+                    AllSides[i].Shape=OPlayer.Shape;
+                    turnNumber=0;
+                    soundEfx.src=soundSelectedSquare;
+                    soundEfx.play();
+                    break;
+                }
             }
         }
-    }
-    if(counter==5){
-        curXFrame=++curXFrame%frameCount;
-        counter=0;
+        if(counter==5){
+            curXFrame=++curXFrame%frameCount;
+            counter=0;
+        }
+        else{
+            counter++;
+        }
+        srcX=curXFrame*width;
+        if(left){
+            srcY=trackLeft*height;
+        }
+        if(right){
+            srcY=trackRight*height;
+        }
+        if(up){
+            srcY=trackUp*height;
+        }
+        if(down){
+            srcY=trackDown*height;
+        }
+        if(left==false&&right==false&&up==false&&down==false){
+            srcX=1*width;
+            srcY=0*height;
+        }
+        if((TopLeft.Shape==XPlayer.Shape&&
+            CenterLeft.Shape==XPlayer.Shape&&
+            BottomLeft.Shape==XPlayer.Shape)||
+            (TopMiddle.Shape==XPlayer.Shape&&
+            CenterMiddle.Shape==XPlayer.Shape&&
+            BottomMiddle.Shape==XPlayer.Shape)||
+            (TopRight.Shape==XPlayer.Shape&&
+            CenterRight.Shape==XPlayer.Shape&&
+            BottomRight.Shape==XPlayer.Shape)||
+            (TopLeft.Shape==XPlayer.Shape&&
+            TopMiddle.Shape==XPlayer.Shape&&
+            TopRight.Shape==XPlayer.Shape)||
+            (CenterLeft.Shape==XPlayer.Shape&&
+            CenterMiddle.Shape==XPlayer.Shape&&
+            CenterRight.Shape==XPlayer.Shape)||
+            (BottomLeft.Shape==XPlayer.Shape&&
+            BottomMiddle.Shape==XPlayer.Shape&&
+            BottomRight.Shape==XPlayer.Shape)||
+            (TopLeft.Shape==XPlayer.Shape&&
+            CenterMiddle.Shape==XPlayer.Shape&&
+            BottomRight.Shape==XPlayer.Shape)||
+            (TopRight.Shape==XPlayer.Shape&&
+            CenterMiddle.Shape==XPlayer.Shape&&
+            BottomLeft.Shape==XPlayer.Shape)
+            ){
+                if(XPlayerWins==false){
+                    XPlayerWins=true;
+                    Message="X Player Wins!";
+                }
+        }
+        else if((TopLeft.Shape==OPlayer.Shape&&
+            CenterLeft.Shape==OPlayer.Shape&&
+            BottomLeft.Shape==OPlayer.Shape)||
+            (TopMiddle.Shape==OPlayer.Shape&&
+            CenterMiddle.Shape==OPlayer.Shape&&
+            BottomMiddle.Shape==OPlayer.Shape)||
+            (TopRight.Shape==OPlayer.Shape&&
+            CenterRight.Shape==OPlayer.Shape&&
+            BottomRight.Shape==OPlayer.Shape)||
+            (TopLeft.Shape==OPlayer.Shape&&
+            TopMiddle.Shape==OPlayer.Shape&&
+            TopRight.Shape==OPlayer.Shape)||
+            (CenterLeft.Shape==OPlayer.Shape&&
+            CenterMiddle.Shape==OPlayer.Shape&&
+            CenterRight.Shape==OPlayer.Shape)||
+            (BottomLeft.Shape==OPlayer.Shape&&
+            BottomMiddle.Shape==OPlayer.Shape&&
+            BottomRight.Shape==OPlayer.Shape)||
+            (TopLeft.Shape==OPlayer.Shape&&
+            CenterMiddle.Shape==OPlayer.Shape&&
+            BottomRight.Shape==OPlayer.Shape)||
+            (TopRight.Shape==OPlayer.Shape&&
+            CenterMiddle.Shape==OPlayer.Shape&&
+            BottomLeft.Shape==OPlayer.Shape)
+            ){
+                if(OPlayerWins==false){
+                    OPlayerWins=true;
+                    Message="O Player Wins!";
+                }
+        }
     }
     else{
-        counter++;
-    }
-    srcX=curXFrame*width;
-    if(left){
-        srcY=trackLeft*height;
-    }
-    if(right){
-        srcY=trackRight*height;
-    }
-    if(up){
-        srcY=trackUp*height;
-    }
-    if(down){
-        srcY=trackDown*height;
-    }
-    if(left==false&&right==false&&up==false&&down==false){
-        srcX=1*width;
-        srcY=0*height;
-    }
-    if((TopLeft.Shape==XPlayer.Shape&&
-        CenterLeft.Shape==XPlayer.Shape&&
-        BottomLeft.Shape==XPlayer.Shape)||
-        (TopMiddle.Shape==XPlayer.Shape&&
-        CenterMiddle.Shape==XPlayer.Shape&&
-        BottomMiddle.Shape==XPlayer.Shape)||
-        (TopRight.Shape==XPlayer.Shape&&
-        CenterRight.Shape==XPlayer.Shape&&
-        BottomRight.Shape==XPlayer.Shape)||
-        (TopLeft.Shape==XPlayer.Shape&&
-        TopMiddle.Shape==XPlayer.Shape&&
-        TopRight.Shape==XPlayer.Shape)||
-        (CenterLeft.Shape==XPlayer.Shape&&
-        CenterMiddle.Shape==XPlayer.Shape&&
-        CenterRight.Shape==XPlayer.Shape)||
-        (BottomLeft.Shape==XPlayer.Shape&&
-        BottomMiddle.Shape==XPlayer.Shape&&
-        BottomRight.Shape==XPlayer.Shape)||
-        (TopLeft.Shape==XPlayer.Shape&&
-        CenterMiddle.Shape==XPlayer.Shape&&
-        BottomRight.Shape==XPlayer.Shape)||
-        (TopRight.Shape==XPlayer.Shape&&
-        CenterMiddle.Shape==XPlayer.Shape&&
-        BottomLeft.Shape==XPlayer.Shape)
-        ){
-            Message="X Player Wins!";
+        delayInBetweenWins-=1/60;
+        if(delayInBetweenWins<0){
             gameover();
+        }
     }
-    else if((TopLeft.Shape==OPlayer.Shape&&
-        CenterLeft.Shape==OPlayer.Shape&&
-        BottomLeft.Shape==OPlayer.Shape)||
-        (TopMiddle.Shape==OPlayer.Shape&&
-        CenterMiddle.Shape==OPlayer.Shape&&
-        BottomMiddle.Shape==OPlayer.Shape)||
-        (TopRight.Shape==OPlayer.Shape&&
-        CenterRight.Shape==OPlayer.Shape&&
-        BottomRight.Shape==OPlayer.Shape)||
-        (TopLeft.Shape==OPlayer.Shape&&
-        TopMiddle.Shape==OPlayer.Shape&&
-        TopRight.Shape==OPlayer.Shape)||
-        (CenterLeft.Shape==OPlayer.Shape&&
-        CenterMiddle.Shape==OPlayer.Shape&&
-        CenterRight.Shape==OPlayer.Shape)||
-        (BottomLeft.Shape==OPlayer.Shape&&
-        BottomMiddle.Shape==OPlayer.Shape&&
-        BottomRight.Shape==OPlayer.Shape)||
-        (TopLeft.Shape==OPlayer.Shape&&
-        CenterMiddle.Shape==OPlayer.Shape&&
-        BottomRight.Shape==OPlayer.Shape)||
-        (TopRight.Shape==OPlayer.Shape&&
-        CenterMiddle.Shape==OPlayer.Shape&&
-        BottomLeft.Shape==OPlayer.Shape)
-        ){
-            Message="O Player Wins!";
-            gameover();
-    }
+
 }
 var render=function(){
     if(bgReady){
@@ -261,20 +277,40 @@ var render=function(){
         for(var i=0;i<AllSides.length;i++){
             if(AllSides[i].Shape==XPlayer.Shape){
                 if(selectedBlock==1){
+                    top=true;
                     left=true;
                 }
                 else if(selectedBlock==2){
-                    right=true;
+                    left=false;
                 }
                 else if(selectedBlock==3){
-                    up=true;
+                    right=true;
                 }
                 else if(selectedBlock==4){
-                    down=true;
+                    right=false;
+                    top=false;
+                    left=true;
                 }
-                ctx.drawImage(xImage,srcX,srcY,width,height,AllSides[i].x,AllSides[i].y,width,height);
+                else if(selectedBlock==5){
+                    left=false;
+                }
+                else if(selectedBlock==6){
+                    right=true;
+                }
+                else if(selectedBlock==7){
+                    right=false;
+                    down=true;
+                    left=true;
+                }
+                else if(selectedBlock==8){
+                    left=false;
+                }
+                else if(selectedBlock==9){
+                    right=true;
+                }
+                ctx.drawImage(xImage,srcX,srcY,width,height,AllSides[i].x+50,AllSides[i].y+50,width,height);
                 selectedBlock++;
-                if(selectedBlock>=6){
+                if(selectedBlock>=9){
                     left=false;
                     right=false;
                     up=false;
@@ -288,18 +324,38 @@ var render=function(){
         for(var i=0;i<AllSides.length;i++){
             if(AllSides[i].Shape==OPlayer.Shape){
                 if(selectedBlock==1){
+                    top=true;
                     left=true;
                 }
                 else if(selectedBlock==2){
-                    right=true;
+                    left=false;
                 }
                 else if(selectedBlock==3){
-                    up=true;
+                    right=true;
                 }
                 else if(selectedBlock==4){
-                    down=true;
+                    right=false;
+                    top=false;
+                    left=true;
                 }
-                ctx.drawImage(yImage,srcX,srcY,width,height,AllSides[i].x,AllSides[i].y,width,height);
+                else if(selectedBlock==5){
+                    left=false;
+                }
+                else if(selectedBlock==6){
+                    right=true;
+                }
+                else if(selectedBlock==7){
+                    right=false;
+                    down=true;
+                    left=true;
+                }
+                else if(selectedBlock==8){
+                    left=false;
+                }
+                else if(selectedBlock==9){
+                    right=true;
+                }
+                ctx.drawImage(yImage,srcX,srcY,width,height,AllSides[i].x+50,AllSides[i].y+50,width,height);
                 selectedBlock++;
                 if(selectedBlock>=6){
                     left=false;
@@ -333,12 +389,6 @@ var main=function(){
     requestAnimationFrame(main);
 }
 var reset=function(){
-    /*
-    playermodel.x=(canvas.width/2)-16;
-    playermodel.y=(canvas.height/2)-16;
-    item.x=32+(Math.random()*(canvas.width-96));
-    item.y=32+(Math.random()*(canvas.height-96));
-    */
     delete ctx;
     selectedBlock=0;
     countdown=360;
@@ -348,6 +398,9 @@ var reset=function(){
     top=false;
     bottom=false;
     counter=0;
+    XPlayerWins=false;
+    OPlayerWins=false;
+    delayInBetweenWins=1;
     for(let i=0;i<AllSides.length;i++){
         AllSides[i].Shape="";
     }
